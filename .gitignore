@@ -1,0 +1,17 @@
+# Azure deployment files
+*.json
+!main.parameters.json
+
+# Temporary files
+*.tmp
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vs/
+.vscode/
+*.suo
+*.user
