@@ -10,15 +10,7 @@ This repository contains **Infrastructure as Code (IaC)** patterns for building 
 
 The labs demonstrate how to combine **Azure API Management**, **Logic Apps**, and **Cosmos DB** to build secure, scalable, and observable integration workflows.
 
-## 🏗️ Architecture
 
-```
-┌─────────────┐     ┌─────────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   Client    │────▶│   API Management    │────▶│    Logic App    │────▶│    Cosmos DB    │
-│             │     │   • Rate Limiting   │     │   • Workflows   │     │   • NoSQL Data  │
-│             │     │   • Auth & Security │     │   • Managed ID  │     │   • RBAC Auth   │
-└─────────────┘     └─────────────────────┘     └─────────────────┘     └─────────────────┘
-```
 
 ## 🧪 Labs
 
