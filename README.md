@@ -1,80 +1,103 @@
-# Azure iPaaS Patterns
+<!-- markdownlint-disable MD033 -->
 
-Infrastructure as Code (Bicep) templates for Azure Integration Platform as a Service (iPaaS) patterns.
+# 🔄 iPaaS Patterns
 
-## 🏗️ Resources Deployed
+[![Open Source Love](https://firstcontributions.github.io/open-source-badges/badges/open-source-v1/open-source.svg)](https://github.com/firstcontributions/open-source-badges)
 
-| Resource | Description |
-|----------|-------------|
-| **Cosmos DB Account** | SQL API database with session consistency |
-| **Database** | `BackendSystems` |
-| **Container** | `MileageData` with `/id` partition key |
-| **Logic App** | Consumption tier with System-assigned Managed Identity |
-| **RBAC** | Cosmos DB Data Contributor role for Logic App |
+## Overview
 
-## 🚀 Deployment
+This repository contains **Infrastructure as Code (IaC)** patterns for building enterprise integration solutions on Azure using the **Integration Platform as a Service (iPaaS)** approach.
+
+The labs demonstrate how to combine **Azure API Management**, **Logic Apps**, and **Cosmos DB** to build secure, scalable, and observable integration workflows.
+
+
+
+## 🧪 Labs
+
+### [🧪 Mileage Tracking API](labs/mileage-tracking/mileage-tracking.ipynb)
+
+Build an end-to-end integration solution with API Management fronting a Logic App workflow that stores data in Cosmos DB using Managed Identity authentication.
+
+[![flow](images/mileage-tracking-flow.png)](labs/mileage-tracking/mileage-tracking.ipynb)
+
+**Features:**
+- 🔐 Rate limiting (5 calls/60s)
+- 🔑 Subscription key authentication
+- 🤖 Managed Identity for Cosmos DB access
+- 📊 End-to-end observability
+
+[🦾 Bicep](labs/mileage-tracking/main.bicep) ➕ [⚙️ Policy](labs/mileage-tracking/apim-policy.xml) ➕ [🧾 Notebook](labs/mileage-tracking/mileage-tracking.ipynb)
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Azure CLI installed
-- Logged into Azure (`az login`)
-- Bicep CLI (included with Azure CLI)
 
-### Deploy
+- [Python 3.12 or later](https://www.python.org/) installed
+- [VS Code](https://code.visualstudio.com/) installed with the [Jupyter notebook extension](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter) enabled
+- [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed
+- [An Azure Subscription](https://azure.microsoft.com/free/) with Contributor permissions
+- [Sign in to Azure with Azure CLI](https://learn.microsoft.com/cli/azure/authenticate-azure-cli-interactively)
+
+### Quick Start
 
 ```bash
-# Create resource group
-az group create --name rg-mileage-lab --location westus2
+# Clone the repository
+git clone https://github.com/odaibert/ipaas-patterns.git
+cd ipaas-patterns
 
-# Deploy infrastructure
-az deployment group create \
-  --resource-group rg-mileage-lab \
-  --template-file main.bicep \
-  --parameters location=westus2
+# Open the lab notebook
+code labs/mileage-tracking/mileage-tracking.ipynb
 ```
 
-## ⚠️ Post-Deployment Configuration
+---
 
-Due to Azure Policy disabling Cosmos DB access keys in many subscriptions, the Cosmos DB connector must be configured manually:
+## 🏛️ Well-Architected Framework
 
-1. Open the Logic App in Azure Portal
-2. Go to **Logic App Designer**
-3. Click **"+"** → **"Add an action"**
-4. Search for **"Azure Cosmos DB"**
-5. Select **"Create or update document (V3)"**
-6. Choose **"Logic Apps Managed Identity"** authentication
-7. Configure:
-   - Account name: `cosmos-mileage-{unique-string}`
-   - Database ID: `BackendSystems`
-   - Collection ID: `MileageData`
-   - Document: Select **Body** from Dynamic content
-8. **Save**
+This solution follows the [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/) principles:
 
-## 📋 Architecture
+| Pillar | Implementation |
+|--------|----------------|
+| **Security** | Managed Identity, RBAC, API subscription keys |
+| **Reliability** | APIM retry policies, Cosmos DB multi-region |
+| **Performance** | Rate limiting, efficient NoSQL queries |
+| **Cost Optimization** | BasicV2 APIM tier, Consumption Logic App |
+| **Operational Excellence** | Infrastructure as Code, observability |
+
+---
+
+## 📁 Repository Structure
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   HTTP Client   │────▶│    Logic App    │────▶│   Cosmos DB     │
-│                 │     │  (Managed ID)   │     │   (SQL API)     │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
-                              │
-                              ▼
-                        ┌─────────────────┐
-                        │  RBAC: Data     │
-                        │  Contributor    │
-                        └─────────────────┘
+├── README.md                    # This file
+├── labs/
+│   └── mileage-tracking/        # Mileage tracking lab
+│       ├── main.bicep           # Infrastructure template
+│       ├── apim-policy.xml      # APIM policies
+│       ├── mileage-tracking.ipynb # Lab notebook
+│       ├── clean-up-resources.ipynb
+│       └── README.md
+├── shared/
+│   └── utils.py                 # Shared utilities
+└── images/                      # Documentation images
 ```
 
-## 🔐 Security
+---
 
-- **Managed Identity**: Logic App uses System-assigned Managed Identity
-- **RBAC**: Cosmos DB access via Azure AD (no access keys)
-- **No Secrets**: All authentication handled via Azure AD
+## 🥇 Resources
 
-## 📁 Files
+- [Azure API Management Documentation](https://learn.microsoft.com/azure/api-management/)
+- [Azure Logic Apps Documentation](https://learn.microsoft.com/azure/logic-apps/)
+- [Azure Cosmos DB Documentation](https://learn.microsoft.com/azure/cosmos-db/)
+- [Bicep Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
 
-- `main.bicep` - Main infrastructure template
-- `README.md` - This file
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

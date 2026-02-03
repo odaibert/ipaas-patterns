@@ -1,10 +1,13 @@
 # Azure deployment files
 *.json
-!main.parameters.json
+!*.ipynb
+!package.json
+!package-lock.json
 
 # Temporary files
 *.tmp
 *.log
+temp-*/
 
 # OS files
 .DS_Store
@@ -15,3 +18,11 @@ Thumbs.db
 .vscode/
 *.suo
 *.user
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.env
