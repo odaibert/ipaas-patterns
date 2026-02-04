@@ -1,0 +1,38 @@
+<policies>
+    <inbound>
+        <base />
+        <rate-limit-by-key calls="10" renewal-period="60" counter-key="@(context.Request.IpAddress)" />
+        <authentication-managed-identity resource="https://servicebus.azure.net" />
+        <set-header name="Content-Type" exists-action="override">
+            <value>application/json</value>
+        </set-header>
+        <set-backend-service base-url="{{sb-queue-uri}}" />
+        <rewrite-uri template="/messages" />
+    </inbound>
+    <backend>
+        <forward-request timeout="30" />
+    </backend>
+    <outbound>
+        <base />
+        <choose>
+            <when condition="@(context.Response.StatusCode == 201)">
+                <set-status code="202" reason="Accepted" />
+                <set-body>@("{\"status\":\"queued\",\"messageId\":\"" + context.RequestId.ToString() + "\"}")</set-body>
+            </when>
+            <otherwise>
+                <set-body>@("{\"status\":\"error\",\"backendStatus\":" + context.Response.StatusCode + ",\"message\":\"" + context.Response.StatusReason + "\"}")</set-body>
+            </otherwise>
+        </choose>
+        <set-header name="Content-Type" exists-action="override">
+            <value>application/json</value>
+        </set-header>
+    </outbound>
+    <on-error>
+        <base />
+        <set-status code="500" reason="Internal Error" />
+        <set-body>@("{\"status\":\"error\",\"message\":\"" + context.LastError.Message + "\"}")</set-body>
+        <set-header name="Content-Type" exists-action="override">
+            <value>application/json</value>
+        </set-header>
+    </on-error>
+</policies>

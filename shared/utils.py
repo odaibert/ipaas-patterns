@@ -50,12 +50,14 @@ def run(command: str, success_message: str = None, error_message: str = None) ->
     Returns:
         CommandResult with success status, output, and parsed JSON if applicable
     """
+    import os
     try:
         result = subprocess.run(
             command,
             shell=True,
             capture_output=True,
-            text=True
+            text=True,
+            env=os.environ.copy()
         )
         
         output = result.stdout.strip() if result.stdout else result.stderr.strip()

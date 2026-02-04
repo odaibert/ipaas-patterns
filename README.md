@@ -8,9 +8,7 @@
 
 This repository contains **Infrastructure as Code (IaC)** patterns for building enterprise integration solutions on Azure using the **Integration Platform as a Service (iPaaS)** approach.
 
-The labs demonstrate how to combine **Azure API Management**, **Logic Apps**, and **Cosmos DB** to build secure, scalable, and observable integration workflows.
-
-
+The labs demonstrate how to combine **Azure API Management**, **Logic Apps**, **Service Bus**, and **Cosmos DB** to build secure, scalable, and observable integration workflows.
 
 ## 🧪 Labs
 
@@ -29,6 +27,21 @@ Build an end-to-end integration solution with API Management fronting a Logic Ap
 [🦾 Bicep](labs/mileage-tracking/main.bicep) ➕ [⚙️ Policy](labs/mileage-tracking/apim-policy.xml) ➕ [🧾 Notebook](labs/mileage-tracking/mileage-tracking.ipynb)
 
 ---
+
+### Contact Form Intake API (labs/contact-form/contact-form.ipynb)
+
+Build a simple integration where API Management accepts contact form submissions and enqueues them to Service Bus.
+
+**Features:**
+- Rate limiting (10 calls/60s)
+- Subscription key authentication
+- Service Bus queue for asynchronous processing
+- SAS token generated in APIM policy (fully automated)
+
+[Bicep](labs/contact-form/main.bicep) ➕ [Policy](labs/contact-form/apim-policy.xml) ➕ [Notebook](labs/contact-form/contact-form.ipynb)
+
+---
+
 
 ## 🚀 Getting Started
 
@@ -72,10 +85,16 @@ This solution follows the [Azure Well-Architected Framework](https://learn.micro
 ```
 ├── README.md                    # This file
 ├── labs/
-│   └── mileage-tracking/        # Mileage tracking lab
+│   ├── mileage-tracking/        # Mileage tracking lab
+│   │   ├── main.bicep           # Infrastructure template
+│   │   ├── apim-policy.xml      # APIM policies
+│   │   ├── mileage-tracking.ipynb # Lab notebook
+│   │   ├── clean-up-resources.ipynb
+│   │   └── README.md
+│   └── contact-form/            # Contact form intake lab
 │       ├── main.bicep           # Infrastructure template
-│       ├── apim-policy.xml      # APIM policies
-│       ├── mileage-tracking.ipynb # Lab notebook
+│       ├── apim-policy.xml      # APIM policy
+│       ├── contact-form.ipynb   # Lab notebook
 │       ├── clean-up-resources.ipynb
 │       └── README.md
 ├── shared/
@@ -89,6 +108,7 @@ This solution follows the [Azure Well-Architected Framework](https://learn.micro
 
 - [Azure API Management Documentation](https://learn.microsoft.com/azure/api-management/)
 - [Azure Logic Apps Documentation](https://learn.microsoft.com/azure/logic-apps/)
+- [Azure Service Bus Documentation](https://learn.microsoft.com/azure/service-bus-messaging/)
 - [Azure Cosmos DB Documentation](https://learn.microsoft.com/azure/cosmos-db/)
 - [Bicep Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
 
