@@ -6,10 +6,7 @@ Build a simple integration that accepts contact form submissions and enqueues th
 
 ### Architecture
 
-```
-Client → APIM (no auth, rate limited) → [Managed Identity] → Service Bus Queue
-         POST /contact/submit
-```
+![Contact Form Architecture](../../images/contact-form.png)
 
 ### Features
 

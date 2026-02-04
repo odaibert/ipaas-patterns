@@ -28,17 +28,19 @@ Build an end-to-end integration solution with API Management fronting a Logic Ap
 
 ---
 
-### Contact Form Intake API (labs/contact-form/contact-form.ipynb)
+### [📬 Contact Form Intake API](labs/contact-form/contact-form.ipynb)
 
-Build a simple integration where API Management accepts contact form submissions and enqueues them to Service Bus.
+Build a simple integration where API Management accepts contact form submissions and enqueues them to Service Bus using Managed Identity authentication.
+
+[![flow](images/contact-form.png)](labs/contact-form/contact-form.ipynb)
 
 **Features:**
-- Rate limiting (10 calls/60s)
-- Subscription key authentication
-- Service Bus queue for asynchronous processing
-- SAS token generated in APIM policy (fully automated)
+- 🚦 Rate limiting (10 calls/60s per IP)
+- 🔓 No authentication required (educational purposes)
+- 🤖 Managed Identity for Service Bus access
+- 📬 Service Bus queue for asynchronous processing
 
-[Bicep](labs/contact-form/main.bicep) ➕ [Policy](labs/contact-form/apim-policy.xml) ➕ [Notebook](labs/contact-form/contact-form.ipynb)
+[🦾 Bicep](labs/contact-form/main.bicep) ➕ [⚙️ Policy](labs/contact-form/apim-policy.xml) ➕ [🧾 Notebook](labs/contact-form/contact-form.ipynb)
 
 ---
 
